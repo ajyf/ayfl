@@ -57,12 +57,12 @@ export const siteConfig: SiteConfig = {
 export const navBarConfig: NavBarConfig = {
 	links: [
 		{
-			name: '艾雅法拉',
-			url: '/amgoat/',
+			name: "艾雅法拉",
+			url: "/amgoat/",
 		},
 		{
-			name: '纯烬艾雅法拉',
-			url: '/agoat2/',
+			name: "纯烬艾雅法拉",
+			url: "/agoat2/",
 		},
 		LinkPreset.Links,
 		LinkPreset.About,
@@ -72,8 +72,7 @@ export const navBarConfig: NavBarConfig = {
 export const profileConfig: ProfileConfig = {
 	name: "~",
 	bio: "~",
-	links: [
-	],
+	links: [],
 };
 
 export const licenseConfig: LicenseConfig = {

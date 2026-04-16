@@ -1,17 +1,17 @@
 ---
-import type { GetStaticPaths } from "astro";
 import Pagination from "@components/control/Pagination.astro";
 import PostPage from "@components/PostPage.astro";
-import { siteConfig } from "@/config";
 import { PAGE_SIZE } from "@constants/constants";
 import MainGridLayout from "@layouts/MainGridLayout.astro";
 import { getSortedPosts } from "@utils/content-utils";
+import type { GetStaticPaths } from "astro";
+import { siteConfig } from "@/config";
 
-export const getStaticPaths = (async ({ paginate }) => {
-    // Disabled to avoid conflict with index.astro and [page].astro which are already handling the routes.
-    // If you want to use this file ([...page].astro) instead, you should delete index.astro and [page].astro,
-    // and uncomment the code below.
-    return [];
+export const getStaticPaths = (async ({ paginate: _paginate }) => {
+	// Disabled to avoid conflict with index.astro and [page].astro which are already handling the routes.
+	// If you want to use this file ([...page].astro) instead, you should delete index.astro and [page].astro,
+	// and uncomment the code below.
+	return [];
 
 	// const allBlogPosts = await getSortedPosts();
 	// return paginate(allBlogPosts, { pageSize: PAGE_SIZE });

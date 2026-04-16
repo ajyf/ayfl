@@ -29,20 +29,20 @@ export function setHue(hue: number): void {
 
 export function getDefaultBackgroundEnabled(): boolean {
 	const configCarrier = document.getElementById("config-carrier");
-	return configCarrier?.dataset.bgEnable === '1';
+	return configCarrier?.dataset.bgEnable === "1";
 }
 
 export function getBackgroundEnabled(): boolean {
 	const stored = localStorage.getItem("bg-enable");
-	return stored ? stored === '1' : getDefaultBackgroundEnabled();
+	return stored ? stored === "1" : getDefaultBackgroundEnabled();
 }
 
 export function setBackgroundEnabled(enabled: boolean): void {
-	localStorage.setItem("bg-enable", enabled ? '1' : '0');
+	localStorage.setItem("bg-enable", enabled ? "1" : "0");
 	const r = document.querySelector(":root") as HTMLElement;
 	if (!r) return;
-	r.style.setProperty("--bg-enable", enabled ? '1' : '0');
-    r.dataset.bgEnable = enabled ? '1' : '0';
+	r.style.setProperty("--bg-enable", enabled ? "1" : "0");
+	r.dataset.bgEnable = enabled ? "1" : "0";
 }
 
 export function getDefaultBackgroundBlur(): number {
@@ -59,11 +59,11 @@ export function setBackgroundBlur(blur: number): void {
 	localStorage.setItem("bg-blur", String(blur));
 	const r = document.querySelector(":root") as HTMLElement;
 	if (!r) return;
-    if (isNaN(blur)) {
-        r.style.setProperty("--bg-blur", "0px");
-    } else {
-        r.style.setProperty("--bg-blur", `${blur}px`);
-    }
+	if (Number.isNaN(blur)) {
+		r.style.setProperty("--bg-blur", "0px");
+	} else {
+		r.style.setProperty("--bg-blur", `${blur}px`);
+	}
 }
 
 export function applyThemeToDocument(theme: LIGHT_DARK_MODE) {

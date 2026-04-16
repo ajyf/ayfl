@@ -4,15 +4,15 @@ import Markdown from "@components/misc/Markdown.astro";
 import MainGridLayout from "@layouts/MainGridLayout.astro";
 
 export async function getStaticPaths() {
-    const specEntries = await getCollection("spec");
-    // Exclude pages that already have static .astro files
-    const existingPages = ['about', 'agoat2', 'amgoat'];
-    return specEntries
-        .filter(entry => !existingPages.includes(entry.slug))
-        .map(entry => ({
-            params: { slug: entry.slug },
-            props: { entry },
-        }));
+	const specEntries = await getCollection("spec");
+	// Exclude pages that already have static .astro files
+	const existingPages = ["about", "agoat2", "amgoat"];
+	return specEntries
+		.filter((entry) => !existingPages.includes(entry.slug))
+		.map((entry) => ({
+			params: { slug: entry.slug },
+			props: { entry },
+		}));
 }
 
 const { entry } = Astro.props;

@@ -37,11 +37,11 @@ const setPanelVisibility = (show: boolean, isDesktop: boolean): void => {
 
 const escapeHtml = (text: string): string => {
 	const map: Record<string, string> = {
-		'&': '&amp;',
-		'<': '&lt;',
-		'>': '&gt;',
-		'"': '&quot;',
-		"'": '&#039;',
+		"&": "&amp;",
+		"<": "&lt;",
+		">": "&gt;",
+		'"': "&quot;",
+		"'": "&#039;",
 	};
 	return text.replace(/[&<>"']/g, (c) => map[c]);
 };
@@ -69,7 +69,7 @@ const search = async (keyword: string, isDesktop: boolean): Promise<void> => {
 				const keywordLower = keyword.toLowerCase();
 				const searchText =
 					`${post.title} ${post.description} ${post.content}`.toLowerCase();
-				const urlPrefix = post.type === 'page' ? '/' : '/posts/';
+				const urlPrefix = post.type === "page" ? "/" : "/posts/";
 				const urlPath = `${urlPrefix}${post.link}`;
 
 				// 支持内容搜索和URL后缀搜索
@@ -95,7 +95,7 @@ const search = async (keyword: string, isDesktop: boolean): Promise<void> => {
 					excerpt = post.description || `${post.content.substring(0, 150)}...`;
 				}
 
-				const urlPrefix = post.type === 'page' ? '/' : '/posts/';
+				const urlPrefix = post.type === "page" ? "/" : "/posts/";
 				return {
 					url: url(`${urlPrefix}${post.link}/`),
 					meta: {

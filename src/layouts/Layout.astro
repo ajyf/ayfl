@@ -19,8 +19,8 @@ import { defaultFavicons } from "../constants/icon";
 import type { Favicon } from "../types/config";
 import { pathsEqual, url } from "../utils/url-utils";
 import "katex/dist/katex.css";
-import path from "node:path";
 import { getImage } from "astro:assets";
+import path from "node:path";
 
 interface Props {
 	title?: string;
@@ -82,7 +82,7 @@ const isLocal =
 		bgSrc.startsWith("https") ||
 		bgSrc.startsWith("data:")
 	);
-const isPublic = bgSrc && bgSrc.startsWith("/");
+const isPublic = bgSrc?.startsWith("/");
 
 let resolvedBgUrl = "none";
 if (bgSrc) {
