@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CharInfo agoat2</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="char-interface">
+        <!-- Background Layer -->
+        <div class="bg-layer">
+            <!-- Background image -->
+            <img src="assets/bj/Bg_volcano_day.webp" alt="Background" class="bg-img">
+        </div>
+
+        <!-- Character Layer -->
+        <div class="char-layer">
+            <!-- Character image -->
+            <img src="assets/lh/agoat2_1.webp" alt="Character" class="char-img">
+        </div>
+
+        <!-- View Mode Exit Button (Hidden by default) -->
+        <div class="view-mode-controls hidden" id="view-mode-controls">
+            <div class="tool-btn" id="btn-exit-view-mode">
+                <img src="" alt="Exit View Mode">
+            </div>
+        </div>
+
+        <!-- UI Layer -->
+        <div class="ui-layer">
+            
+            <!-- Top Left Tabs -->
+            <div class="top-tabs">
+                <div class="tab art-tab active" data-art="elite0">
+                    <span class="tab-icon"><img src="" alt="Elite 0"></span>
+                    <span class="tab-text">精英零</span>
+                </div>
+                <div class="tab art-tab" data-art="elite2">
+                    <span class="tab-icon"><img src="" alt="Elite 2"></span>
+                    <span class="tab-text">精英二</span>
+                </div>
+                <div class="tab art-tab" data-art="skin">
+                    <span class="tab-icon"><img src="" alt="skin"></span>
+                    <span class="tab-text">时装</span>
+                </div>
+                <div class="tab icon-only" id="bg-switch-btn">
+                    <span class="tab-icon"><img src="" alt="Switch Background"></span>
+                </div>
+            </div>
+
+            <!-- Skin UI Controls (Hidden by default) -->
+            <div class="skin-ui-controls hidden" id="skin-ui-controls">
+                <div class="skin-control-btn" id="skin-back-btn">
+                    <img src="" alt="Back">
+                </div>
+                <div class="skin-control-btn" id="skin-view-btn">
+                    <img src="" alt="Toggle Visibility">
+                </div>
+            </div>
+
+            <!-- Bottom Left Info -->
+            <div class="bottom-left-info">
+                <!-- Artist/CV Block -->
+                <div class="creator-info">
+                    <!-- Painter Info -->
+                    <div class="info-group" id="painter-info">
+                        <div class="info-row clickable" id="painter-toggle">
+                            <span class="icon"><img src="" alt="Painter"></span>
+                            <span class="name" id="painter-name">Anmi</span>
+                            <span class="plus" id="painter-expand-icon">+</span>
+                        </div>
+                        <div class="info-details" id="painter-details">
+                            <div class="detail-tag" id="painter-tag">默认服装</div>
+                            <div class="detail-text" id="painter-desc">
+                                暂无描述
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="info-group" id="cv-info">
+                        <div class="info-row clickable" id="cv-toggle">
+                            <span class="icon"><img src="" alt="CV"></span>
+                            <span class="name">种田梨沙</span>
+                            <span class="plus" id="cv-expand-icon">+</span>
+                        </div>
+                        <div class="info-details" id="cv-details">
+                            <div class="cv-item active">
+                                <div class="cv-lang-box"><i class="fa-solid fa-check"></i> 日文</div>
+                                <div class="cv-name">种田梨沙</div>
+                            </div>
+                            <div class="cv-item">
+                                <div class="cv-lang-box">中文-普通话</div>
+                                <div class="cv-name">降温</div>
+                            </div>
+                            <div class="cv-item">
+                                <div class="cv-lang-box">英文</div>
+                                <div class="cv-name">Hollie Taylor</div>
+                            </div>
+                            <div class="cv-item">
+                                <div class="cv-lang-box">韩文</div>
+                                <div class="cv-name">金贺娄</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rarity -->
+                <div class="rarity">
+                    <img src="" alt="star">
+                </div>
+
+                <!-- Names -->
+                <div class="char-names">
+                    <div class="en-name">Eyjafjalla the Hvit Aska</div>
+                    <div class="cn-name">纯烬艾雅法拉</div>
+                </div>
+
+                <!-- Class Info -->
+                <div class="class-info">
+                    <div class="class-icon-box">
+                        <img src="assets/ui/class_yl.webp" alt="Class Icon">
+                    </div>
+                    <div class="class-tags">
+                        <div class="tag-row">
+                            <span class="tag"><img src="assets/ui/xy.webp" alt="Doctor"> 行医</span>
+                            <span class="tag">远程位</span>
+                        </div>
+                        <div class="tag-row">
+                            <span class="tag-long">治疗</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Side Tools -->
+            <div class="right-tools">
+                <div class="tool-btn" id="btn-download"><img src="" alt="Download"></div>
+                <div class="tool-btn" id="btn-view-mode"><img src="" alt="View Mode"></div>
+                <div class="tool-btn" id="btn-fullscreen"><img src="" alt="Fullscreen"></div>
+            </div>
+            
+            <!-- Bottom Center Mute (Optional based on image) -->
+            <div class="bottom-center-control">
+                <div class="mute-btn" id="mute-btn">
+                    <img src="" alt="Music Toggle">
+                </div>
+            </div>
+
+            <!-- Background Selector Panel -->
+            <div class="bg-selector-panel hidden" id="bg-panel">
+                <div class="bg-panel-header">
+                    <span>选择背景 / Select Background</span>
+                    <button id="close-bg-panel"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+                <div class="bg-grid" id="bg-grid">
+                    <!-- JavaScript will populate this -->
+                </div>
+            </div>
+
+            <!-- Skin List Sidebar (Top Right) -->
+            <div class="skin-list-container hidden" id="skin-list">
+                <!-- JavaScript will populate skin cards here -->
+            </div>
+        </div>
+    </div>
+    <!-- Hidden Data for Painter Info -->
+    <div id="painter-content-data" style="display: none;">
+        <div data-id="elite0">
+            <span class="data-tag">默认服装</span>
+            <span class="data-desc">艾雅法拉去火山考察时穿的防护服。<br>母亲的外套大小如今正好合适，往事也不再是负担，而是她力量的源泉。</span>
+        </div>
+        <div data-id="elite2">
+            <span class="data-tag">默认服装</span>
+            <span class="data-desc">防护服上的焦痕历历可数，仿佛是声声关切叮咛。<br>来自过去的温暖环绕着艾雅法拉，陪伴她攀登一座座生命之山。</span>
+        </div>
+        <div data-id="skin_1">
+            <span class="data-tag">时代/XXXIV</span>
+            <span class="data-desc">EPOQUE系列新款/远行前的野餐。<br>嘭！一定是多利的恶作剧，所有人都变小了！好在奶油没有弄脏衣裙，艾雅法拉正准备穿着它跳一支天蓝色的舞呢。</span>
+        </div>
+    </div>
+    <!-- Hidden Data for Character Art (Moved from JS) -->
+    <div id="char-art-data" style="display: none;">
+        <!-- Standard Arts -->
+        <div data-id="elite0" 
+             data-type="standard"
+             data-src="assets/lh/agoat2_1.webp"
+             data-scale="1.0">
+        </div>
+        <div data-id="elite2" 
+             data-type="standard"
+             data-src="assets/lh/agoat2_2.webp"
+             data-scale="1.7">
+        </div>
+
+        <!-- Skins -->
+        <div data-id="skin_1" 
+             data-type="skin"
+             data-src="assets/lh/agoat2_skin1.webp"
+             data-cover="assets/ui/Skin_logo_sd.webp"
+             data-name="远行前的野餐"
+             data-scale="1.9">
+        </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>

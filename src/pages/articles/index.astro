@@ -1,0 +1,33 @@
+---
+import Pagination from "@components/control/Pagination.astro";
+import PostPage from "@components/PostPage.astro";
+import { siteConfig } from "@/config";
+import { PAGE_SIZE } from "@constants/constants";
+import MainGridLayout from "@layouts/MainGridLayout.astro";
+import { getSortedPosts } from "@utils/content-utils";
+
+const allBlogPosts = await getSortedPosts();
+const totalPages = Math.ceil(allBlogPosts.length / PAGE_SIZE);
+const posts = allBlogPosts.slice(0, PAGE_SIZE);
+
+const page = {
+    data: posts,
+    start: 0,
+    end: posts.length - 1,
+    size: PAGE_SIZE,
+    total: allBlogPosts.length,
+    currentPage: 1,
+    lastPage: totalPages,
+    url: {
+        current: '/articles/',
+        prev: undefined,
+        next: totalPages > 1 ? '/articles/2/' : undefined,
+    }
+};
+---
+
+<MainGridLayout>
+    <h1 class="sr-only">{siteConfig.title}</h1>
+    <PostPage page={page}></PostPage>
+    <Pagination class="mx-auto onload-animation" page={page} style={`animation-delay: calc(var(--content-delay) + ${(posts.length)*50}ms)`}></Pagination>
+</MainGridLayout>

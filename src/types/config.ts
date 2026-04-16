@@ -1,0 +1,130 @@
+import type { AUTO_MODE, DARK_MODE, LIGHT_MODE } from "@constants/constants";
+
+export type SiteConfig = {
+	title: string;
+	subtitle: string;
+
+	lang:
+		| "en"
+		| "zh_CN"
+		| "zh_TW"
+		| "ja"
+		| "ko"
+		| "es"
+		| "th"
+		| "vi"
+		| "tr"
+		| "id";
+
+	themeColor: {
+		hue: number;
+		fixed: boolean;
+	};
+	banner: {
+		enable: boolean;
+		src: string;
+		position?: "top" | "center" | "bottom";
+		credit: {
+			enable: boolean;
+			text: string;
+			url?: string;
+		};
+	};
+	background: {
+		enable: boolean;
+		src: string;
+		position?: "top" | "center" | "bottom";
+		size?: "cover" | "contain" | "auto";
+		repeat?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+		attachment?: "fixed" | "scroll" | "local";
+		opacity?: number;
+		blur?: number; // Background blur intensity, 0-20
+	};
+	toc: {
+		enable: boolean;
+		depth: 1 | 2 | 3;
+	};
+	announcement: {
+		enable: boolean;
+		content: string;
+		type: "info" | "warning" | "success" | "error";
+	};
+
+	favicon: Favicon[];
+};
+
+export type Favicon = {
+	src: string;
+	theme?: "light" | "dark";
+	sizes?: string;
+};
+
+export enum LinkPreset {
+	Home = 0,
+	Archive = 1,
+	Links = 2,
+	About = 3,
+	Articles = 4,
+}
+
+export type NavBarLink = {
+	name: string;
+	url: string;
+	external?: boolean;
+};
+
+export type NavBarConfig = {
+	links: (NavBarLink | LinkPreset)[];
+};
+
+export type ProfileConfig = {
+	avatar?: string;
+	name: string;
+	bio?: string;
+	links: {
+		name: string;
+		url: string;
+		icon: string;
+	}[];
+};
+
+export type LicenseConfig = {
+	enable: boolean;
+	name: string;
+	url: string;
+};
+
+export type LIGHT_DARK_MODE =
+	| typeof LIGHT_MODE
+	| typeof DARK_MODE
+	| typeof AUTO_MODE;
+
+export type BlogPostData = {
+	body: string;
+	title: string;
+	published: Date;
+	description: string;
+	tags: string[];
+	draft?: boolean;
+	image?: string;
+	category?: string;
+	prevTitle?: string;
+	prevSlug?: string;
+	nextTitle?: string;
+	nextSlug?: string;
+};
+
+export type ExpressiveCodeConfig = {
+	theme: string;
+};
+
+export interface Friend {
+	name: string;
+	avatar: string;
+	description: string;
+	url: string;
+}
+
+export interface FriendsData {
+	friends: Friend[];
+}

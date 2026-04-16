@@ -1,0 +1,34 @@
+---
+import { Icon } from "astro-icon/components";
+import { siteConfig } from "../../config";
+
+const { announcement } = siteConfig;
+const { enable, content, type } = announcement;
+
+if (!enable) {
+  return;
+}
+
+const typeClassMap = {
+  info: "bg-blue-100/80 text-blue-800 dark:bg-blue-900/80 dark:text-blue-300 border-blue-200 dark:border-blue-800",
+  warning: "bg-yellow-100/80 text-yellow-800 dark:bg-yellow-900/80 dark:text-yellow-300 border-yellow-200 dark:border-yellow-800",
+  success: "bg-green-100/80 text-green-800 dark:bg-green-900/80 dark:text-green-300 border-green-200 dark:border-green-800",
+  error: "bg-red-100/80 text-red-800 dark:bg-red-900/80 dark:text-red-300 border-red-200 dark:border-red-800",
+};
+
+const iconMap = {
+  info: "fa6-solid:circle-info",
+  warning: "fa6-solid:triangle-exclamation",
+  success: "fa6-solid:circle-check",
+  error: "fa6-solid:circle-xmark",
+};
+
+const className = Astro.props.class;
+---
+
+<div class:list={["w-full p-3 mb-4 border rounded-xl flex items-center gap-3 transition-all", typeClassMap[type], className]}>
+  <Icon name={iconMap[type]} class="text-lg shrink-0" />
+  <div class="text-sm font-medium">
+    <Fragment set:html={content} />
+  </div>
+</div>

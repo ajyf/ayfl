@@ -1,0 +1,12 @@
+---
+import MainGridLayout from "../layouts/MainGridLayout.astro";
+import { siteConfig } from "../config";
+---
+<MainGridLayout>
+    <div class="min-h-[calc(100vh-18rem)] flex flex-col items-center justify-center text-center">
+        <h1 class="text-4xl font-bold mb-4 text-black/90 dark:text-white/90">
+            {siteConfig.title}
+        </h1>
+        <p class="text-xl text-black/50 dark:text-white/50">{siteConfig.subtitle}</p>
+    </div>
+</MainGridLayout>

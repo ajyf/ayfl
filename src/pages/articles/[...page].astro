@@ -1,0 +1,30 @@
+---
+import type { GetStaticPaths } from "astro";
+import Pagination from "@components/control/Pagination.astro";
+import PostPage from "@components/PostPage.astro";
+import { siteConfig } from "@/config";
+import { PAGE_SIZE } from "@constants/constants";
+import MainGridLayout from "@layouts/MainGridLayout.astro";
+import { getSortedPosts } from "@utils/content-utils";
+
+export const getStaticPaths = (async ({ paginate }) => {
+    // Disabled to avoid conflict with index.astro and [page].astro which are already handling the routes.
+    // If you want to use this file ([...page].astro) instead, you should delete index.astro and [page].astro,
+    // and uncomment the code below.
+    return [];
+
+	// const allBlogPosts = await getSortedPosts();
+	// return paginate(allBlogPosts, { pageSize: PAGE_SIZE });
+}) satisfies GetStaticPaths;
+// https://github.com/withastro/astro/issues/6507#issuecomment-1489916992
+
+const { page } = Astro.props;
+
+const len = page.data.length;
+---
+
+<MainGridLayout>
+    <h1 class="sr-only">{siteConfig.title}</h1>
+    <PostPage page={page}></PostPage>
+    <Pagination class="mx-auto onload-animation" page={page} style={`animation-delay: calc(var(--content-delay) + ${(len)*50}ms)`}></Pagination>
+</MainGridLayout>

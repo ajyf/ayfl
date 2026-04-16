@@ -1,0 +1,902 @@
+:root {
+    --text-color: #ffffff;
+    --primary-bg: rgba(0, 0, 0, 0.7);
+    --accent-bg: #222;
+    --highlight: #00bfff; /* A generic blue highlight */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Segoe UI", "Microsoft YaHei", sans-serif;
+    background-color: #333;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.char-interface {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background-color: #000;
+    overflow: hidden;
+}
+
+/* Background & Character Layers */
+.bg-layer, .char-layer, .ui-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Let clicks pass through where possible */
+}
+
+.bg-layer img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.8;
+    transition: opacity 0.5s ease;
+}
+
+.char-layer {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.char-layer img {
+    height: 110%; /* Slightly larger to look "grand" */
+    object-fit: contain;
+    transform: translateY(5%);
+    transition: opacity 0.2s ease-in-out;
+}
+
+.ui-layer {
+    pointer-events: auto;
+}
+
+/* Common transition for UI elements that will be hidden */
+.top-tabs, .bottom-left-info, .right-tools, .bottom-center-control {
+    transition: opacity 0.3s, visibility 0.3s;
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Utility Class for Hiding */
+.hidden {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+
+/* Top Left Tabs */
+.top-tabs {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    display: flex;
+    gap: 5px;
+}
+
+.tab {
+    background: var(--primary-bg);
+    color: var(--text-color);
+    padding: 5px 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    border-top: 2px solid transparent;
+    transition: all 0.3s;
+    height: 40px;
+    font-size: 14px;
+    clip-path: polygon(0 0, 100% 0, 90% 100%, 0% 100%); /* Slanted edge */
+    padding-right: 25px; /* Compensate for slant */
+}
+
+.tab-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tab-icon img {
+    height: 24px;
+    width: auto;
+}
+
+.tab.active .tab-icon img {
+    filter: invert(1) hue-rotate(180deg); 
+}
+
+.tab.active {
+    background: #fff;
+    color: #000;
+    border-top: 2px solid #00aaff;
+}
+
+.tab.icon-only {
+    padding: 5px 15px;
+    clip-path: none;
+    width: 40px;
+    justify-content: center;
+}
+
+.tab-sub {
+    font-size: 10px;
+    opacity: 0.7;
+    margin-left: 5px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+/* Skin UI Controls (Top Left) */
+.skin-ui-controls {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    display: flex;
+    gap: 15px;
+    z-index: 60;
+    transition: opacity 0.3s, visibility 0.3s;
+}
+
+.skin-control-btn {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    background: rgba(0, 0, 0, 0.5); /* Slight background to make it pop */
+    border-radius: 4px; /* Slight roundness */
+}
+
+.skin-control-btn img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.skin-control-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* Bottom Left Info */
+.bottom-left-info {
+    position: absolute;
+    bottom: 30px;
+    left: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 500px;
+    color: var(--text-color);
+}
+
+/* Creator Info */
+.creator-info {
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.info-group {
+    width: 280px; /* Fixed width for alignment */
+    margin-bottom: 5px;
+    transition: all 0.3s ease;
+}
+
+.info-row {
+    background: linear-gradient(90deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 100%);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    padding: 8px 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%; /* Fill the group width */
+    cursor: pointer;
+    border-left: 3px solid transparent;
+    transition: all 0.3s;
+    margin-bottom: 2px;
+}
+
+.info-row:hover,
+.info-group.expanded .info-row {
+    background: linear-gradient(90deg, rgba(30,30,30,0.7) 0%, rgba(0,0,0,0) 100%);
+    border-left: 3px solid #fff;
+}
+
+.info-row .icon {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.info-row .icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.info-row .icon i {
+    font-size: 16px;
+}
+
+.info-row .name {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.info-row .plus {
+    margin-left: auto;
+    font-size: 18px;
+    opacity: 0.7;
+    transition: transform 0.3s;
+}
+
+/* Expanded State for Toggle Icon */
+.info-group.expanded .plus {
+    transform: rotate(45deg);
+}
+
+/* Details Box */
+.info-details {
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    width: 100%; /* Fill the group width */
+    border-left: 0 solid #aaa;
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    padding: 0 15px;
+    margin-top: 0;
+    transition: all 0.4s ease;
+    visibility: hidden; /* Use visibility to hide content */
+}
+
+.info-group.expanded .info-details {
+    max-height: 500px; /* Large enough to fit content */
+    opacity: 1;
+    padding: 15px;
+    margin-top: 2px;
+    border-left-width: 3px;
+    visibility: visible;
+}
+
+/* Ensure generic hidden class doesn't interfere if present */
+.info-details.hidden {
+    /* We control visibility via .expanded parent now, so we can ignore .hidden or rely on default behavior */
+    /* If .hidden is display:none, it will break animation. */
+    display: block !important; 
+    /* But we need it to be effectively hidden by default styles above. */
+    /* Actually, we should just remove the .hidden class from HTML. */
+}
+
+.detail-tag {
+    background: #fff;
+    color: #000;
+    display: inline-block;
+    padding: 2px 8px;
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    border-radius: 2px;
+}
+
+.detail-text {
+    font-size: 13px;
+    line-height: 1.6;
+    color: #ddd;
+    text-align: justify;
+}
+
+/* CV List Styles */
+.cv-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+    border: 1px solid #666;
+    height: 32px; /* Slightly taller for better touch target */
+    background: rgba(0,0,0,0.3);
+    transition: all 0.2s;
+}
+
+.cv-lang-box {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    font-size: 13px;
+    flex-grow: 1;
+    gap: 5px;
+}
+
+.cv-name {
+    padding: 0 10px;
+    font-size: 13px;
+    color: #fff;
+}
+
+.cv-item.active {
+    border-color: #0099ff;
+}
+
+.cv-item.active .cv-lang-box {
+    background: #0099ff;
+    color: #fff;
+    font-weight: bold;
+}
+
+/* Rarity */
+.rarity {
+    display: flex;
+    gap: 2px;
+    filter: drop-shadow(2px 2px 2px #000);
+}
+
+.rarity img {
+    height: 50px; /* Adjust size to match design */
+    width: auto;
+}
+
+/* Names */
+.char-names {
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+}
+
+.en-name {
+    font-size: 18px;
+    font-weight: 300;
+    letter-spacing: 1px;
+}
+
+.cn-name {
+    font-size: 48px;
+    font-weight: 900;
+    line-height: 1.1;
+    font-style: italic; /* Slight slant */
+}
+
+/* Class Info */
+.class-info {
+    display: flex;
+    align-items: stretch;
+    margin-top: 10px;
+}
+
+.class-icon-box {
+    background: #111;
+    width: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 28px;
+    border: 1px solid #555;
+}
+
+.class-icon-box img {
+    width: 72px;
+    height: 72px;
+    object-fit: contain;
+}
+
+.class-tags {
+    display: flex;
+    flex-direction: column;
+}
+
+.tag-row {
+    display: flex;
+}
+
+.tag, .tag-long {
+    background: rgba(30, 30, 30, 0.9);
+    padding: 9px 27px;
+    font-size: 14px;
+    border: 1px solid #444;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.tag img {
+    height: 21px;
+    width: auto;
+}
+
+.tag-long {
+    width: 100%;
+    justify-content: center;
+    background: #222;
+}
+
+/* Right Tools */
+.right-tools {
+    position: absolute;
+    bottom: 30px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 50; /* Ensure tools stay above background but maybe below skin list if overlapping? */
+}
+
+.tool-btn {
+    width: 40px;
+    height: 40px;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border: 1px solid rgba(255,255,255,0.2);
+    transition: background 0.2s;
+}
+
+.tool-btn:hover {
+    background: rgba(255,255,255,0.2);
+}
+
+/* Bottom Center Mute */
+.bottom-center-control {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.mute-btn {
+    width: 40px;
+    height: 40px;
+    background: rgba(0,0,0,0.5);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.5);
+}
+
+/* Background Selector Panel */
+.bg-selector-panel {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    max-width: 800px;
+    background: rgba(0, 0, 0, 0.9);
+    border: 1px solid #444;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    gap: 20px;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+    transition: opacity 0.3s, visibility 0.3s;
+}
+
+.bg-selector-panel.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.bg-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 18px;
+    border-bottom: 1px solid #333;
+    padding-bottom: 10px;
+}
+
+#close-bg-panel {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.bg-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 10px;
+    max-height: 400px;
+    overflow-y: auto;
+    padding: 10px; /* Add padding to prevent hover scale from triggering scrollbar */
+}
+
+.bg-item {
+    aspect-ratio: 16/9;
+    background: #222;
+    cursor: pointer;
+    border: 2px solid transparent;
+    overflow: hidden;
+    position: relative;
+    transition: transform 0.2s;
+}
+
+.bg-item:hover {
+    border-color: #00bfff;
+    transform: scale(1.05);
+}
+
+.bg-item.selected {
+    border-color: #00bfff;
+    box-shadow: 0 0 10px #00bfff;
+}
+
+.bg-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.bg-name {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0,0,0,0.7);
+    font-size: 10px;
+    padding: 2px 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.upload-btn {
+    background: #00bfff;
+    color: #000;
+    padding: 10px 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: bold;
+    transition: background 0.2s;
+}
+
+.upload-btn:hover {
+    background: #33ccff;
+}
+
+/* Skin List Sidebar (Top Right) */
+.skin-list-container {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 60;
+    transition: opacity 0.3s, transform 0.3s;
+    transform: translateX(0);
+}
+
+.skin-list-container.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(20px);
+}
+
+.skin-card {
+    position: relative;
+    width: 100%;
+    height: 80px;
+    background: #111;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    border: 1px solid transparent;
+    transition: border-color 0.2s;
+}
+
+.skin-card:hover {
+    border-color: rgba(255,255,255,0.5);
+}
+
+.skin-card.selected {
+    border: 1px solid #fff;
+}
+
+.skin-card-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.7;
+    mask-image: linear-gradient(to left, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 100%);
+    -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 100%);
+}
+
+.skin-card-content {
+    position: relative;
+    z-index: 1;
+    padding: 10px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end; /* Right align text */
+    text-align: right;
+    text-shadow: 1px 1px 2px #000;
+}
+
+.skin-brand {
+    font-size: 10px;
+    color: #aaa;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 2px;
+}
+
+.skin-name {
+    font-size: 14px;
+    font-weight: bold;
+    color: #fff;
+    text-transform: uppercase;
+}
+
+/* Checkmark overlay for selected item */
+.skin-card.selected::after {
+    content: '';
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 30px;
+    height: 30px;
+    background: url('assets/ui/skinSelect.webp') no-repeat center center;
+    background-size: contain;
+    z-index: 2;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    /* Layout */
+    .top-tabs {
+        top: 10px;
+        left: 10px;
+        gap: 4px;
+    }
+
+    .tab {
+        padding: 0 10px;
+        height: 32px;
+        padding-right: 20px; /* Maintain slant compensation */
+    }
+
+    .tab-text {
+        display: none; /* Hide text labels on mobile */
+    }
+
+    .tab-icon img {
+        height: 20px;
+    }
+
+    .tab.icon-only {
+        width: 32px;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* Character Layer */
+    .char-layer img {
+        height: 85%;
+        transform: translateY(5%);
+        max-width: none; /* Allow image to overflow width if needed to maintain aspect ratio */
+    }
+
+    /* Bottom Info */
+    .bottom-left-info {
+        left: 15px;
+        bottom: 15px;
+        width: auto;
+        max-width: 70%;
+    }
+
+    .cn-name {
+        font-size: 32px;
+    }
+
+    .en-name {
+        font-size: 14px;
+    }
+
+    .rarity img {
+        height: 30px;
+    }
+
+    /* Class Info */
+    .class-icon-box {
+        width: 60px;
+        height: 60px;
+        font-size: 20px;
+    }
+
+    .class-icon-box img {
+        width: 50px;
+        height: 50px;
+    }
+
+    .tag, .tag-long {
+        padding: 5px 15px;
+        font-size: 12px;
+    }
+
+    .tag img {
+        height: 16px;
+    }
+
+    /* Creator Info - Compact */
+    .info-group {
+        width: 220px;
+    }
+    
+    .info-row {
+        padding: 5px 8px;
+    }
+    
+    .info-row .name {
+        font-size: 14px;
+    }
+
+    /* Right Tools */
+    .right-tools {
+        right: 10px;
+        bottom: 15px;
+        gap: 8px;
+    }
+
+    .tool-btn {
+        width: 36px;
+        height: 36px;
+    }
+    
+    .tool-btn img {
+        width: 20px;
+        height: 20px;
+    }
+
+    /* Panels */
+    .bg-selector-panel {
+        width: 95%;
+        max-height: 80vh;
+    }
+
+    .skin-list-container {
+        top: 50px; /* Push down if mobile */
+        right: 0;
+        width: 180px;
+    }
+
+    .skin-card {
+        height: 60px;
+    }
+    
+    .skin-brand {
+        font-size: 8px;
+    }
+    
+    .skin-name {
+        font-size: 12px;
+    }
+}
+
+/* Portrait Specific (Phones) */
+@media (max-width: 480px) {
+    .char-layer {
+        align-items: center; /* Vertically center the character */
+    }
+
+    .char-layer img {
+        height: auto;
+        width: auto; /* Allow auto width to maintain aspect ratio */
+        max-width: 150%; /* Allow some zoom but keep it reasonable */
+        max-height: 85%; /* Don't overflow height too much */
+        transform: translateY(0); /* Remove horizontal offset */
+    }
+
+    .bottom-left-info {
+        left: 10px;
+        bottom: 10px;
+        max-width: 80%;
+    }
+
+    .cn-name {
+        font-size: 28px;
+    }
+    
+    .class-info {
+        transform: scale(0.9);
+        transform-origin: left bottom;
+        margin-top: 5px;
+    }
+    
+    .info-group {
+        width: 180px;
+    }
+    
+    /* Move tools up to avoid overlapping bottom info */
+    .right-tools {
+        bottom: auto;
+        top: 60px; /* Below top tabs */
+        right: 10px;
+    }
+
+    /* Adjust Skin List to not overlap tools */
+    .skin-list-container {
+        top: 10px;
+        right: 50px; /* Left of tools */
+        width: 150px;
+    }
+}
+
+/* View Mode Controls */
+.view-mode-controls {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    z-index: 200; /* Highest priority */
+}
+
+/* Show View Mode Controls when UI is hidden */
+body.ui-hidden .view-mode-controls.hidden {
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+}
+
+/* Enable pointer events on character layer for zooming */
+body.ui-hidden .char-layer {
+    pointer-events: auto;
+}
+
+/* Hide UI Layer when UI is hidden */
+body.ui-hidden .ui-layer {
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+}
+
+/* Webpage Fullscreen Mode */
+body.web-fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: 9999;
+    background: #000; /* Ensure background is opaque */
+}
+
+body.web-fullscreen .char-interface {
+    width: 100%;
+    height: 100%;
+}

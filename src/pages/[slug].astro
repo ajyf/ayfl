@@ -1,0 +1,33 @@
+---
+import { getCollection, render } from "astro:content";
+import Markdown from "@components/misc/Markdown.astro";
+import MainGridLayout from "@layouts/MainGridLayout.astro";
+
+export async function getStaticPaths() {
+    const specEntries = await getCollection("spec");
+    // Exclude pages that already have static .astro files
+    const existingPages = ['about', 'agoat2', 'amgoat'];
+    return specEntries
+        .filter(entry => !existingPages.includes(entry.slug))
+        .map(entry => ({
+            params: { slug: entry.slug },
+            props: { entry },
+        }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+
+// Extract title from body (first line starting with #)
+const titleMatch = entry.body.match(/^#\s+(.*)/);
+const title = titleMatch ? titleMatch[1].trim() : entry.slug;
+---
+<MainGridLayout title={title} description={title}>
+    <div class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative min-h-32">
+        <div class="card-base z-10 px-9 py-6 relative w-full ">
+            <Markdown class="mt-2">
+                <Content />
+            </Markdown>
+        </div>
+    </div>
+</MainGridLayout>
