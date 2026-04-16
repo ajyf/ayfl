@@ -27,7 +27,7 @@ import { rehypeLazyLoadImage } from "./src/plugins/rehype-lazy-load-image.mjs";
 
 // https://astro.build/config
 export default defineConfig({
-	site: "https://www.ayfl.xin/",
+	site: "https://ayfl.xx.kg/",
 	base: "/",
 	trailingSlash: "always",
 	integrations: [
